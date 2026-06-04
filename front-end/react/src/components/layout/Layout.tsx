@@ -20,7 +20,7 @@ const items: MenuItem[] = [
 
         children: [
           { key: '/user-list', label: '전체 목록' },
-          { key: '2', label: '블랙리스트' },
+          { key: '/blacklist', label: '블랙리스트' },
         ],
       },
       {
@@ -35,7 +35,7 @@ const items: MenuItem[] = [
     key: 'sub2',
     label: '신고관리',
     icon: <AlertOutlined />,
-    children: [{ key: '4', label: '전체 목록 ' }],
+    children: [{ key: '/reports', label: '전체 목록 ' }],
   },
 ];
 
