@@ -93,6 +93,40 @@ const SEED_MOIMS = [
     creatorProfilePictureUrl: 'https://images.unsplash.com/photo-1438761681033-6461ffad8d80?w=150',
     participantsCount: 2,
     status: 'ACTIVE'
+  },
+  {
+    id: 'moim-105',
+    title: '망원 한강 피크닉 & 북 토크 📚',
+    description: '시원한 강바람을 맞으며 인생 책 한 권씩 소개해봐요. 맛있는 샌드위치와 돗자리는 준비되어 있습니다!',
+    capacity: 8,
+    date: '2026-06-28T15:00:00Z',
+    schedule: '2026-06-28 오후 3시',
+    fee: 10000,
+    payment: true,
+    location: '망원 한강공원 초입 잔디밭',
+    category: '어학/공부',
+    creatorId: 5,
+    creatorNickname: '동네피플',
+    creatorProfilePictureUrl: 'https://images.unsplash.com/photo-1570295999919-56ceb5ecca61?w=150',
+    participantsCount: 2,
+    status: 'ACTIVE'
+  },
+  {
+    id: 'moim-106',
+    title: '나만의 가죽 카드지갑 만들기 클래스 👜',
+    description: '기본 도구 사용법부터 새들 스티치까지 배워 직접 가죽 카드 지갑을 완성해보는 원데이 클래스입니다.',
+    capacity: 4,
+    date: '2026-07-02T18:30:00Z',
+    schedule: '2026-07-02 오후 6시 30분',
+    fee: 35000,
+    payment: true,
+    location: '합정 아뜰리에 가죽 공방',
+    category: '문화/예술',
+    creatorId: 6,
+    creatorNickname: '달리기선수',
+    creatorProfilePictureUrl: 'https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?w=150',
+    participantsCount: 1,
+    status: 'ACTIVE'
   }
 ];
 
@@ -112,7 +146,7 @@ const setStorageItem = (key: string, value: any) => {
 export const initMockDb = () => {
   if (typeof window === 'undefined') return;
 
-  if (localStorage.getItem(DB_PREFIX + 'initialized') !== 'v2') {
+  if (localStorage.getItem(DB_PREFIX + 'initialized') !== 'v3') {
     setStorageItem('profile', DEFAULT_PROFILE);
     setStorageItem('categories', SEED_CATEGORIES);
     setStorageItem('moims', SEED_MOIMS);
@@ -122,91 +156,126 @@ export const initMockDb = () => {
     // Moim 102: users 3 (creator), 6, 7, 8
     // Moim 103: users 1 (hong, creator)
     // Moim 104: users 1 (hong), 4 (creator)
-    setStorageItem('participants', {
-      'moim-101': [
-        { userId: 1, nickname: '살롱길동', profilePictureUrl: 'https://images.unsplash.com/photo-1535713875002-d1d0cf377fde?w=150', attendance: true },
-        { userId: 2, nickname: '보드마스터', profilePictureUrl: 'https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?w=150', attendance: true },
-        { userId: 5, nickname: '동네피플', profilePictureUrl: 'https://images.unsplash.com/photo-1570295999919-56ceb5ecca61?w=150', attendance: false }
-      ],
-      'moim-102': [
-        { userId: 3, nickname: '러닝러버', profilePictureUrl: 'https://images.unsplash.com/photo-1494790108377-be9c29b29330?w=150', attendance: true },
-        { userId: 6, nickname: '달리기선수', profilePictureUrl: 'https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?w=150', attendance: true },
-        { userId: 7, nickname: '아침형인간', profilePictureUrl: 'https://images.unsplash.com/photo-1438761681033-6461ffad8d80?w=150', attendance: false },
-        { userId: 8, nickname: '러너킴', profilePictureUrl: 'https://images.unsplash.com/photo-1570295999919-56ceb5ecca61?w=150', attendance: false }
-      ],
-      'moim-103': [
-        { userId: 1, nickname: '살롱길동', profilePictureUrl: 'https://images.unsplash.com/photo-1535713875002-d1d0cf377fde?w=150', attendance: true }
-      ],
-      'moim-104': [
-        { userId: 1, nickname: '살롱길동', profilePictureUrl: 'https://images.unsplash.com/photo-1535713875002-d1d0cf377fde?w=150', attendance: true },
-        { userId: 4, nickname: '커피요정', profilePictureUrl: 'https://images.unsplash.com/photo-1438761681033-6461ffad8d80?w=150', attendance: true }
-      ]
-    });
+      setStorageItem('participants', {
+        'moim-101': [
+          { userId: 1, nickname: '살롱길동', profilePictureUrl: 'https://images.unsplash.com/photo-1535713875002-d1d0cf377fde?w=150', attendance: true },
+          { userId: 2, nickname: '보드마스터', profilePictureUrl: 'https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?w=150', attendance: true },
+          { userId: 5, nickname: '동네피플', profilePictureUrl: 'https://images.unsplash.com/photo-1570295999919-56ceb5ecca61?w=150', attendance: false }
+        ],
+        'moim-102': [
+          { userId: 3, nickname: '러닝러버', profilePictureUrl: 'https://images.unsplash.com/photo-1494790108377-be9c29b29330?w=150', attendance: true },
+          { userId: 6, nickname: '달리기선수', profilePictureUrl: 'https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?w=150', attendance: true },
+          { userId: 7, nickname: '아침형인간', profilePictureUrl: 'https://images.unsplash.com/photo-1438761681033-6461ffad8d80?w=150', attendance: false },
+          { userId: 8, nickname: '러너킴', profilePictureUrl: 'https://images.unsplash.com/photo-1570295999919-56ceb5ecca61?w=150', attendance: false }
+        ],
+        'moim-103': [
+          { userId: 1, nickname: '살롱길동', profilePictureUrl: 'https://images.unsplash.com/photo-1535713875002-d1d0cf377fde?w=150', attendance: true }
+        ],
+        'moim-104': [
+          { userId: 1, nickname: '살롱길동', profilePictureUrl: 'https://images.unsplash.com/photo-1535713875002-d1d0cf377fde?w=150', attendance: true },
+          { userId: 4, nickname: '커피요정', profilePictureUrl: 'https://images.unsplash.com/photo-1438761681033-6461ffad8d80?w=150', attendance: true }
+        ],
+        'moim-105': [
+          { userId: 5, nickname: '동네피플', profilePictureUrl: 'https://images.unsplash.com/photo-1570295999919-56ceb5ecca61?w=150', attendance: true },
+          { userId: 1, nickname: '살롱길동', profilePictureUrl: 'https://images.unsplash.com/photo-1535713875002-d1d0cf377fde?w=150', attendance: false }
+        ],
+        'moim-106': [
+          { userId: 6, nickname: '달리기선수', profilePictureUrl: 'https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?w=150', attendance: true }
+        ]
+      });
 
     // Seed Tickets (3D Decoration layout JSON mapping)
     // Default tickets for each moim containing simple Fabric.js representations
-    setStorageItem('tickets', {
-      'moim-101': {
-        resultJSON: JSON.stringify({
-          thumbnailUrl: 'https://images.unsplash.com/photo-1607799279861-4dd421887fb3?w=500',
-          backgroundColor: '#ffe5e5',
-          fabric: { objects: [{ type: 'text', text: 'BOARD GAME SATURDAY', left: 50, top: 100, fill: '#ff4d4d' }] }
-        })
-      },
-      'moim-102': {
-        resultJSON: JSON.stringify({
-          thumbnailUrl: 'https://images.unsplash.com/photo-1531403009284-440f080d1e12?w=500',
-          backgroundColor: '#e6f7ff',
-          fabric: { objects: [{ type: 'text', text: 'RUNNING TO THE SUNSET', left: 40, top: 100, fill: '#1890ff' }] }
-        })
-      },
-      'moim-103': {
-        resultJSON: JSON.stringify({
-          thumbnailUrl: 'https://images.unsplash.com/photo-1555066931-4365d14bab8c?w=500',
-          backgroundColor: '#f6ffed',
-          fabric: { objects: [{ type: 'text', text: 'VAN GOGH DRAWING', left: 60, top: 100, fill: '#52c41a' }] }
-        })
-      },
-      'moim-104': {
-        resultJSON: JSON.stringify({
-          thumbnailUrl: 'https://images.unsplash.com/photo-1542831371-29b0f74f9713?w=500',
-          backgroundColor: '#fff7e6',
-          fabric: { objects: [{ type: 'text', text: 'ESPRESSO TOUR', left: 70, top: 100, fill: '#fa8c16' }] }
-        })
-      }
-    });
+      setStorageItem('tickets', {
+        'moim-101': {
+          resultJSON: JSON.stringify({
+            thumbnailUrl: 'https://images.unsplash.com/photo-1607799279861-4dd421887fb3?w=500',
+            backgroundColor: '#ffe5e5',
+            fabric: { objects: [{ type: 'text', text: 'BOARD GAME SATURDAY', left: 50, top: 100, fill: '#ff4d4d' }] }
+          })
+        },
+        'moim-102': {
+          resultJSON: JSON.stringify({
+            thumbnailUrl: 'https://images.unsplash.com/photo-1531403009284-440f080d1e12?w=500',
+            backgroundColor: '#e6f7ff',
+            fabric: { objects: [{ type: 'text', text: 'RUNNING TO THE SUNSET', left: 40, top: 100, fill: '#1890ff' }] }
+          })
+        },
+        'moim-103': {
+          resultJSON: JSON.stringify({
+            thumbnailUrl: 'https://images.unsplash.com/photo-1555066931-4365d14bab8c?w=500',
+            backgroundColor: '#f6ffed',
+            fabric: { objects: [{ type: 'text', text: 'VAN GOGH DRAWING', left: 60, top: 100, fill: '#52c41a' }] }
+          })
+        },
+        'moim-104': {
+          resultJSON: JSON.stringify({
+            thumbnailUrl: 'https://images.unsplash.com/photo-1542831371-29b0f74f9713?w=500',
+            backgroundColor: '#fff7e6',
+            fabric: { objects: [{ type: 'text', text: 'ESPRESSO TOUR', left: 70, top: 100, fill: '#fa8c16' }] }
+          })
+        },
+        'moim-105': {
+          resultJSON: JSON.stringify({
+            thumbnailUrl: 'https://images.unsplash.com/photo-1618401471353-b98aedd07871?w=500&auto=format&fit=crop&q=60',
+            backgroundColor: '#e6f7ff',
+            fabric: { objects: [{ type: 'text', text: 'HAN RIVER BOOK TALK', left: 40, top: 100, fill: '#1890ff' }] }
+          })
+        },
+        'moim-106': {
+          resultJSON: JSON.stringify({
+            thumbnailUrl: 'https://images.unsplash.com/photo-1618401471353-b98aedd07871?w=500&auto=format&fit=crop&q=60',
+            backgroundColor: '#fff7e6',
+            fabric: { objects: [{ type: 'text', text: 'LEATHER CLASS', left: 30, top: 100, fill: '#fa8c16' }] }
+          })
+        }
+      });
 
     // Seed Diaries (3D decoration layout JSON mapping for back-side)
-    setStorageItem('diaries', {
-      'moim-101': {
-        resultJSON: JSON.stringify({
-          thumbnailUrl: 'https://images.unsplash.com/photo-1607799279861-4dd421887fb3?w=500',
-          backgroundColor: '#ffe5e5',
-          fabric: { objects: [{ type: 'text', text: 'BOARD GAME MEMORIES', left: 50, top: 100, fill: '#ff4d4d' }] }
-        })
-      },
-      'moim-102': {
-        resultJSON: JSON.stringify({
-          thumbnailUrl: 'https://images.unsplash.com/photo-1531403009284-440f080d1e12?w=500',
-          backgroundColor: '#e6f7ff',
-          fabric: { objects: [{ type: 'text', text: 'RUNNING MEMORIES', left: 40, top: 100, fill: '#1890ff' }] }
-        })
-      },
-      'moim-103': {
-        resultJSON: JSON.stringify({
-          thumbnailUrl: 'https://images.unsplash.com/photo-1555066931-4365d14bab8c?w=500',
-          backgroundColor: '#f6ffed',
-          fabric: { objects: [{ type: 'text', text: 'VAN GOGH MEMORIES', left: 60, top: 100, fill: '#52c41a' }] }
-        })
-      },
-      'moim-104': {
-        resultJSON: JSON.stringify({
-          thumbnailUrl: 'https://images.unsplash.com/photo-1542831371-29b0f74f9713?w=500',
-          backgroundColor: '#fff7e6',
-          fabric: { objects: [{ type: 'text', text: 'ESPRESSO MEMORIES', left: 70, top: 100, fill: '#fa8c16' }] }
-        })
-      }
-    });
+      setStorageItem('diaries', {
+        'moim-101': {
+          resultJSON: JSON.stringify({
+            thumbnailUrl: 'https://images.unsplash.com/photo-1607799279861-4dd421887fb3?w=500',
+            backgroundColor: '#ffe5e5',
+            fabric: { objects: [{ type: 'text', text: 'BOARD GAME MEMORIES', left: 50, top: 100, fill: '#ff4d4d' }] }
+          })
+        },
+        'moim-102': {
+          resultJSON: JSON.stringify({
+            thumbnailUrl: 'https://images.unsplash.com/photo-1531403009284-440f080d1e12?w=500',
+            backgroundColor: '#e6f7ff',
+            fabric: { objects: [{ type: 'text', text: 'RUNNING MEMORIES', left: 40, top: 100, fill: '#1890ff' }] }
+          })
+        },
+        'moim-103': {
+          resultJSON: JSON.stringify({
+            thumbnailUrl: 'https://images.unsplash.com/photo-1555066931-4365d14bab8c?w=500',
+            backgroundColor: '#f6ffed',
+            fabric: { objects: [{ type: 'text', text: 'VAN GOGH MEMORIES', left: 60, top: 100, fill: '#52c41a' }] }
+          })
+        },
+        'moim-104': {
+          resultJSON: JSON.stringify({
+            thumbnailUrl: 'https://images.unsplash.com/photo-1542831371-29b0f74f9713?w=500',
+            backgroundColor: '#fff7e6',
+            fabric: { objects: [{ type: 'text', text: 'ESPRESSO MEMORIES', left: 70, top: 100, fill: '#fa8c16' }] }
+          })
+        },
+        'moim-105': {
+          resultJSON: JSON.stringify({
+            thumbnailUrl: 'https://images.unsplash.com/photo-1618401471353-b98aedd07871?w=500&auto=format&fit=crop&q=60',
+            backgroundColor: '#e6f7ff',
+            fabric: { objects: [] }
+          })
+        },
+        'moim-106': {
+          resultJSON: JSON.stringify({
+            thumbnailUrl: 'https://images.unsplash.com/photo-1618401471353-b98aedd07871?w=500&auto=format&fit=crop&q=60',
+            backgroundColor: '#fff7e6',
+            fabric: { objects: [] }
+          })
+        }
+      });
 
     // Seed Moim Reviews
     setStorageItem('reviews', {
@@ -217,24 +286,30 @@ export const initMockDb = () => {
     });
 
     // Seed Chat messages
-    setStorageItem('chats', {
-      'moim-101': [
-        { senderId: 2, senderNickname: '보드마스터', content: '안녕하세요! 모임 개설 완료했습니다. 보드게임 준비 완료입니다.', timestamp: new Date(Date.now() - 3 * 3600 * 1000).toISOString() },
-        { senderId: 1, senderNickname: '살롱길동', content: '반가워요! 이번 주에 뵙겠습니다.', timestamp: new Date(Date.now() - 2.5 * 3600 * 1000).toISOString() }
-      ],
-      'moim-102': [
-        { senderId: 3, senderNickname: '러닝러버', content: '다들 몸 잘 풀고 오셔요! 날씨 시원하니 아주 좋을 거 같습니다.', timestamp: new Date(Date.now() - 1 * 3600 * 1000).toISOString() }
-      ],
-      'moim-103': [
-        { senderId: 1, senderNickname: '살롱길동', content: '미술관 투어 모임방입니다! 소통용 톡방 개설했어요.', timestamp: new Date(Date.now() - 4 * 3600 * 1000).toISOString() }
-      ],
-      'moim-104': [
-        { senderId: 4, senderNickname: '커피요정', content: '에스프레소 투어 코스 공유해 드려요.', timestamp: new Date(Date.now() - 2 * 3600 * 1000).toISOString() }
-      ]
-    });
-
-    // Set initialized
-    localStorage.setItem(DB_PREFIX + 'initialized', 'v2');
+      setStorageItem('chats', {
+        'moim-101': [
+          { senderId: 2, senderNickname: '보드마스터', content: '안녕하세요! 모임 개설 완료했습니다. 보드게임 준비 완료입니다.', timestamp: new Date(Date.now() - 3 * 3600 * 1000).toISOString() },
+          { senderId: 1, senderNickname: '살롱길동', content: '반가워요! 이번 주에 뵙겠습니다.', timestamp: new Date(Date.now() - 2.5 * 3600 * 1000).toISOString() }
+        ],
+        'moim-102': [
+          { senderId: 3, senderNickname: '러닝러버', content: '다들 몸 잘 풀고 오셔요! 날씨 시원하니 아주 좋을 거 같습니다.', timestamp: new Date(Date.now() - 1 * 3600 * 1000).toISOString() }
+        ],
+        'moim-103': [
+          { senderId: 1, senderNickname: '살롱길동', content: '미술관 투어 모임방입니다! 소통용 톡방 개설했어요.', timestamp: new Date(Date.now() - 4 * 3600 * 1000).toISOString() }
+        ],
+        'moim-104': [
+          { senderId: 4, senderNickname: '커피요정', content: '에스프레소 투어 코스 공유해 드려요.', timestamp: new Date(Date.now() - 2 * 3600 * 1000).toISOString() }
+        ],
+        'moim-105': [
+          { senderId: 5, senderNickname: '동네피플', content: '책 추천 모임입니다! 다들 편하게 오세요.', timestamp: new Date(Date.now() - 1 * 3600 * 1000).toISOString() }
+        ],
+        'moim-106': [
+          { senderId: 6, senderNickname: '달리기선수', content: '공방 예약 완료되었습니다. 재료 준비해둘게요!', timestamp: new Date(Date.now() - 2 * 3600 * 1000).toISOString() }
+        ]
+      });
+  
+      // Set initialized
+      localStorage.setItem(DB_PREFIX + 'initialized', 'v3');
   }
 };
 
@@ -305,13 +380,44 @@ export const setupMockInterceptors = (instance: AxiosInstance) => {
 
       // 3. Moims (Meetings)
       else if (url.includes('/moims/home') && method === 'get') {
-        // Return structured home categories and meeting lists
+        const categories = getStorageItem('categories', SEED_CATEGORIES);
+        const homeMeetings = categories.map((cat: any) => {
+          const meetingListForCat = moims
+            .filter((m: any) => m.category === cat.name)
+            .map((m: any) => {
+              const ticketInfo = tickets[m.id] ? JSON.parse(tickets[m.id].resultJSON) : null;
+              return {
+                moimId: m.id,
+                categoryName: m.category,
+                meetingTitle: m.title,
+                isCreator: m.creatorId === profile.id,
+                isEnd: new Date(m.date).getTime() < Date.now(),
+                backgroundColor: ticketInfo?.backgroundColor || '#ffffff',
+                ticketThumb: ticketInfo?.thumbnailUrl || 'https://images.unsplash.com/photo-1618401471353-b98aedd07871?w=500&auto=format&fit=crop&q=60'
+              };
+            });
+          return {
+            categoryName: cat.name,
+            meetingList: meetingListForCat
+          };
+        });
         resData = {
-          categories: getStorageItem('categories', SEED_CATEGORIES),
-          moims: moims
+          content: homeMeetings,
+          hasNext: false
         };
       } else if (url.includes('/moims/recommend') && method === 'get') {
-        resData = moims.slice(0, 3);
+        resData = moims.slice(0, 3).map((m: any) => {
+          const ticketInfo = tickets[m.id] ? JSON.parse(tickets[m.id].resultJSON) : null;
+          return {
+            moimId: m.id,
+            categoryName: m.category,
+            meetingTitle: m.title,
+            isCreator: m.creatorId === profile.id,
+            isEnd: new Date(m.date).getTime() < Date.now(),
+            backgroundColor: ticketInfo?.backgroundColor || '#ffffff',
+            ticketThumb: ticketInfo?.thumbnailUrl || 'https://images.unsplash.com/photo-1618401471353-b98aedd07871?w=500&auto=format&fit=crop&q=60'
+          };
+        });
       } else if (url.match(/\/moims\/([A-Za-z0-9-]+)\/attendance\/(\d+)/) && method === 'post') {
         const matches = url.match(/\/moims\/([A-Za-z0-9-]+)\/attendance\/(\d+)/)!;
         const mId = matches[1];
@@ -405,7 +511,31 @@ export const setupMockInterceptors = (instance: AxiosInstance) => {
         const mId = url.match(/\/moims\/([A-Za-z0-9-]+)/)![1];
         const found = moims.find((m: any) => m.id === mId);
         if (found) {
-          resData = found;
+          const list = participants[mId] || [];
+          const ticketInfo = tickets[mId] ? JSON.parse(tickets[mId].resultJSON) : null;
+          resData = {
+            id: found.id,
+            category: found.category,
+            payment: found.fee || 0,
+            creator: found.creatorNickname,
+            creatorProfilePictureUrl: found.creatorProfilePictureUrl,
+            participants: list.map((u: any) => ({
+              userId: u.userId,
+              nickname: u.nickname,
+              profilePictureUrl: u.profilePictureUrl,
+              attendance: u.attendance
+            })),
+            meetingPictureUrls: [
+              ticketInfo?.thumbnailUrl || 'https://images.unsplash.com/photo-1618401471353-b98aedd07871?w=500&auto=format&fit=crop&q=60'
+            ],
+            title: found.title,
+            description: found.description,
+            location: found.location,
+            capacity: found.capacity,
+            meetingDate: found.date,
+            isSharable: true,
+            backgroundColor: ticketInfo?.backgroundColor || '#ffffff'
+          };
         } else {
           status = 404;
           throw new Error('Moim not found');
@@ -428,7 +558,23 @@ export const setupMockInterceptors = (instance: AxiosInstance) => {
         resData = { success: true };
       } else if (url.includes('/moims/search/keyword') && method === 'get') {
         const keyword = String(config.params?.keyword || '').toLowerCase();
-        resData = moims.filter((m: any) => m.title.toLowerCase().includes(keyword) || m.description.toLowerCase().includes(keyword));
+        const filtered = moims.filter((m: any) => m.title.toLowerCase().includes(keyword) || m.description.toLowerCase().includes(keyword));
+        const mapped = filtered.map((m: any) => {
+          const ticketInfo = tickets[m.id] ? JSON.parse(tickets[m.id].resultJSON) : null;
+          return {
+            moimId: m.id,
+            categoryName: m.category,
+            meetingTitle: m.title,
+            isCreator: m.creatorId === profile.id,
+            isEnd: new Date(m.date).getTime() < Date.now(),
+            backgroundColor: ticketInfo?.backgroundColor || '#ffffff',
+            ticketThumb: ticketInfo?.thumbnailUrl || 'https://images.unsplash.com/photo-1618401471353-b98aedd07871?w=500&auto=format&fit=crop&q=60'
+          };
+        });
+        resData = {
+          content: mapped,
+          hasNext: false
+        };
       } else if (url.includes('/moims') && method === 'get') {
         // Custom query checks
         const isParticipantQuery = config.params?.isParticipant === 'true';
@@ -447,7 +593,22 @@ export const setupMockInterceptors = (instance: AxiosInstance) => {
           // Active moims simulation
           filtered = filtered.filter((m: any) => new Date(m.date).getTime() >= Date.now());
         }
-        resData = filtered;
+        const mapped = filtered.map((m: any) => {
+          const ticketInfo = tickets[m.id] ? JSON.parse(tickets[m.id].resultJSON) : null;
+          return {
+            moimId: m.id,
+            categoryName: m.category,
+            meetingTitle: m.title,
+            isCreator: m.creatorId === profile.id,
+            isEnd: new Date(m.date).getTime() < Date.now(),
+            backgroundColor: ticketInfo?.backgroundColor || '#ffffff',
+            ticketThumb: ticketInfo?.thumbnailUrl || 'https://images.unsplash.com/photo-1618401471353-b98aedd07871?w=500&auto=format&fit=crop&q=60'
+          };
+        });
+        resData = {
+          content: mapped,
+          hasNext: false
+        };
       } else if (url.includes('/moims') && method === 'post') {
         const newId = 'moim-' + Math.random().toString(36).substr(2, 9);
         const newMoim = {
