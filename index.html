@@ -4,22 +4,22 @@
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>SSALON - 살롱 모임관리 서비스 포털</title>
-  <!-- Google Fonts: Outfit -->
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-  <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;600;800&family=Noto+Sans+KR:wght@300;400;700&display=swap" rel="stylesheet">
+  <link href="https://fonts.googleapis.com/css2?family=Josefin+Sans:wght@300;400;600&family=Noto+Sans+KR:wght@300;400;500;700&display=swap" rel="stylesheet">
+  <link rel="stylesheet" as="style" crossorigin href="https://cdn.jsdelivr.net/gh/orioncactus/pretendard@v1.3.9/dist/web/static/pretendard.min.css" />
   
   <style>
     :root {
-      --bg-gradient: linear-gradient(135deg, #0f0c20 0%, #15102a 50%, #06020f 100%);
-      --accent-color-1: #8a2be2;
-      --accent-color-2: #4a00e0;
-      --accent-glow: 0 0 20px rgba(138, 43, 226, 0.4);
-      --card-bg: rgba(255, 255, 255, 0.03);
-      --card-border: rgba(255, 255, 255, 0.07);
-      --card-hover-border: rgba(138, 43, 226, 0.4);
-      --text-main: #f5f3f7;
-      --text-sub: #b1a9c4;
+      --bg-gradient: radial-gradient(circle at center, #ffffff 0%, #f6f5f9 100%);
+      --accent-color: #111111;
+      --accent-hover: #333333;
+      --card-bg: rgba(255, 255, 255, 0.75);
+      --card-border: rgba(0, 0, 0, 0.06);
+      --card-hover-border: rgba(0, 0, 0, 0.2);
+      --text-main: #1f1f1f;
+      --text-sub: #6e6e73;
+      --glow-color: rgba(0, 0, 0, 0.03);
     }
 
     * {
@@ -29,7 +29,7 @@
     }
 
     body {
-      font-family: 'Outfit', 'Noto Sans KR', sans-serif;
+      font-family: 'Josefin Sans', 'Pretendard', 'Noto Sans KR', sans-serif;
       background: var(--bg-gradient);
       color: var(--text-main);
       min-height: 100vh;
@@ -41,179 +41,167 @@
       position: relative;
     }
 
-    /* Ambient background lights */
-    .bg-light-1 {
+    /* Soft light ambient glow */
+    .ambient-glow {
       position: absolute;
-      width: 400px;
-      height: 400px;
-      background: radial-gradient(circle, rgba(138, 43, 226, 0.15) 0%, rgba(0,0,0,0) 70%);
-      top: 10%;
-      left: 15%;
+      width: 600px;
+      height: 600px;
+      background: radial-gradient(circle, rgba(0, 0, 0, 0.015) 0%, rgba(255, 255, 255, 0) 70%);
       pointer-events: none;
       z-index: 1;
     }
-
-    .bg-light-2 {
-      position: absolute;
-      width: 500px;
-      height: 500px;
-      background: radial-gradient(circle, rgba(74, 0, 224, 0.12) 0%, rgba(0,0,0,0) 70%);
-      bottom: 10%;
-      right: 15%;
-      pointer-events: none;
-      z-index: 1;
-    }
+    .glow-1 { top: -10%; left: -10%; }
+    .glow-2 { bottom: -10%; right: -10%; }
 
     .container {
-      max-width: 1000px;
+      max-width: 900px;
       width: 100%;
-      padding: 2rem;
+      padding: 3rem 2rem;
       text-align: center;
       z-index: 10;
     }
 
     header {
       margin-bottom: 4rem;
-      animation: fadeInDown 0.8s ease-out;
+      animation: fadeInDown 0.8s cubic-bezier(0.16, 1, 0.3, 1);
     }
 
-    .logo-container {
+    .logo-svg-container {
       display: inline-flex;
       align-items: center;
-      gap: 12px;
-      margin-bottom: 1rem;
+      justify-content: center;
+      width: 160px;
+      height: auto;
+      margin-bottom: 1.5rem;
+      opacity: 0.95;
     }
 
-    .logo-icon {
-      font-size: 2.8rem;
-      animation: pulse 2s infinite ease-in-out;
+    .logo-svg-container svg {
+      width: 100%;
+      height: auto;
+    }
+
+    .logo-path {
+      fill: var(--text-main);
     }
 
     h1 {
-      font-size: 3.5rem;
-      font-weight: 800;
-      letter-spacing: -1px;
-      background: linear-gradient(to right, #ffffff, #d2b4ff);
-      -webkit-background-clip: text;
-      -webkit-text-fill-color: transparent;
-      margin-bottom: 1rem;
+      display: none; /* Accessible text only, visual is SVG */
     }
 
     .subtitle {
-      font-size: 1.25rem;
+      font-size: 1.15rem;
       color: var(--text-sub);
-      max-width: 600px;
+      max-width: 540px;
       margin: 0 auto;
-      line-height: 1.6;
+      line-height: 1.7;
       font-weight: 300;
+      letter-spacing: -0.3px;
     }
 
     .cards-grid {
       display: grid;
-      grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
-      gap: 2rem;
+      grid-template-columns: repeat(auto-fit, minmax(320px, 1fr));
+      gap: 2.5rem;
       margin-bottom: 4rem;
-      animation: fadeInUp 0.8s ease-out 0.2s both;
+      animation: fadeInUp 0.9s cubic-bezier(0.16, 1, 0.3, 1) 0.15s both;
     }
 
     .portal-card {
       background: var(--card-bg);
       border: 1px solid var(--card-border);
-      border-radius: 20px;
-      padding: 2.5rem 2rem;
-      backdrop-filter: blur(16px);
-      -webkit-backdrop-filter: blur(16px);
-      transition: all 0.4s cubic-bezier(0.165, 0.84, 0.44, 1);
+      border-radius: 28px;
+      padding: 3.5rem 2.5rem;
+      backdrop-filter: blur(20px);
+      -webkit-backdrop-filter: blur(20px);
+      transition: all 0.5s cubic-bezier(0.16, 1, 0.3, 1);
       display: flex;
       flex-direction: column;
       align-items: center;
       justify-content: space-between;
       text-decoration: none;
       color: inherit;
-      position: relative;
-      overflow: hidden;
-    }
-
-    .portal-card::before {
-      content: '';
-      position: absolute;
-      top: 0;
-      left: 0;
-      width: 100%;
-      height: 100%;
-      background: linear-gradient(135deg, rgba(138, 43, 226, 0.05) 0%, rgba(0,0,0,0) 100%);
-      opacity: 0;
-      transition: opacity 0.4s ease;
+      box-shadow: 0 10px 30px rgba(0, 0, 0, 0.02);
     }
 
     .portal-card:hover {
-      transform: translateY(-8px);
+      transform: translateY(-6px);
       border-color: var(--card-hover-border);
-      box-shadow: 0 12px 30px rgba(138, 43, 226, 0.15), inset 0 0 15px rgba(255, 255, 255, 0.03);
-    }
-
-    .portal-card:hover::before {
-      opacity: 1;
+      box-shadow: 0 25px 50px rgba(0, 0, 0, 0.05), 0 2px 8px rgba(0, 0, 0, 0.01);
     }
 
     .card-icon {
-      font-size: 3.5rem;
-      margin-bottom: 1.5rem;
-      transition: transform 0.4s ease;
+      font-size: 4rem;
+      margin-bottom: 2rem;
+      transition: transform 0.6s cubic-bezier(0.16, 1, 0.3, 1);
+      filter: drop-shadow(0 4px 10px rgba(0, 0, 0, 0.04));
     }
 
     .portal-card:hover .card-icon {
-      transform: scale(1.15) rotate(3deg);
+      transform: scale(1.1) translateY(-2px);
     }
 
     .card-title {
-      font-size: 1.5rem;
+      font-size: 1.45rem;
       font-weight: 600;
-      margin-bottom: 0.75rem;
-      color: #ffffff;
+      margin-bottom: 0.9rem;
+      color: var(--text-main);
+      letter-spacing: -0.5px;
     }
 
     .card-desc {
       font-size: 0.95rem;
       color: var(--text-sub);
-      line-height: 1.5;
-      margin-bottom: 2rem;
-      font-weight: 300;
+      line-height: 1.6;
+      margin-bottom: 2.5rem;
+      font-weight: 350;
+      word-break: keep-all;
     }
 
     .card-btn {
-      padding: 0.75rem 2rem;
-      background: linear-gradient(135deg, var(--accent-color-1) 0%, var(--accent-color-2) 100%);
-      border-radius: 30px;
+      width: 100%;
+      padding: 1rem 2rem;
+      background: var(--accent-color);
+      border-radius: 50px;
       font-weight: 600;
       font-size: 0.95rem;
       color: #ffffff;
-      box-shadow: var(--accent-glow);
-      transition: transform 0.3s ease, box-shadow 0.3s ease;
+      transition: all 0.3s cubic-bezier(0.16, 1, 0.3, 1);
       display: inline-flex;
       align-items: center;
-      gap: 8px;
+      justify-content: center;
+      gap: 10px;
     }
 
     .portal-card:hover .card-btn {
-      transform: scale(1.05);
-      box-shadow: 0 0 25px rgba(138, 43, 226, 0.6);
+      background: var(--accent-hover);
+      transform: scale(1.02);
+    }
+
+    .card-btn svg {
+      transition: transform 0.3s ease;
+    }
+
+    .portal-card:hover .card-btn svg {
+      transform: translateX(4px);
     }
 
     footer {
-      font-size: 0.85rem;
+      font-size: 0.8rem;
       color: var(--text-sub);
       margin-top: auto;
       padding-top: 2rem;
-      animation: fadeIn 1s ease-out 0.4s both;
+      animation: fadeIn 1.2s ease-out 0.3s both;
       font-weight: 300;
+      letter-spacing: 0.5px;
+      opacity: 0.8;
     }
 
     /* Animations */
     @keyframes fadeInDown {
       from {
         opacity: 0;
-        transform: translateY(-30px);
+        transform: translateY(-20px);
       }
       to {
         opacity: 1;
@@ -224,7 +212,7 @@
     @keyframes fadeInUp {
       from {
         opacity: 0;
-        transform: translateY(30px);
+        transform: translateY(20px);
       }
       to {
         opacity: 1;
@@ -237,38 +225,43 @@
       to { opacity: 1; }
     }
 
-    @keyframes pulse {
-      0%, 100% { transform: scale(1); }
-      50% { transform: scale(1.08); }
-    }
-
-    @keyframes rotate {
-      from { transform: rotate(0deg); }
-      to { transform: rotate(360deg); }
-    }
-
-    @media (max-width: 600px) {
-      h1 {
-        font-size: 2.5rem;
+    @media (max-width: 768px) {
+      .container {
+        padding: 2rem 1.5rem;
       }
-      .subtitle {
-        font-size: 1.1rem;
+      header {
+        margin-bottom: 3rem;
+      }
+      .logo-svg-container {
+        width: 130px;
+      }
+      .cards-grid {
+        grid-template-columns: 1fr;
+        gap: 1.8rem;
+      }
+      .portal-card {
+        padding: 3rem 2rem;
       }
     }
   </style>
 </head>
 <body>
 
-  <div class="bg-light-1"></div>
-  <div class="bg-light-2"></div>
+  <div class="ambient-glow glow-1"></div>
+  <div class="ambient-glow glow-2"></div>
 
   <div class="container">
     <header>
-      <div class="logo-container">
-        <span class="logo-icon">✨</span>
+      <div class="logo-svg-container">
+        <!-- Inline SVG of ssalon_logo_hand.svg -->
+        <svg id="_레이어_2" data-name="레이어 2" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 115 37.63">
+          <g id="_레이어_1-2" data-name="레이어 1">
+            <path class="logo-path" d="M46.65,29.01c6.06-2.68,10.64-7.32,15.03-12.11,3.98-4.34,7.77-8.87,11.52-13.43,1.32-1.6,2.82-2.57,4.44-1.17,1.54,1.34.57,2.81-.63,4.28-4.52,5.54-8.89,11.19-13.23,16.87-1.05,1.37-1.78,2.99-3.15,5.35,1.87-.93,2.87-1.56,3.96-1.94,4.54-1.58,9.1-3.08,13.65-4.6.58-.19,1.22-.25,1.74-.53,4.18-2.33,5.31-1.84,6.31,2.99,3.4.7,6.7.29,9.69-1.64,1.43-.93,2.51-1.31,3.7.28.29.39,1.13.66,1.63.56,3.06-.63,4.95.39,5.9,3.48.7,2.26,1.92,3.92,4.82,2.49.63-.31,2.04.18,2.61.77.46.48.49,1.77.2,2.5-1.29,3.19-5.97,4.32-8.68,1.82-1.73-1.59-2.79-3.91-4.49-6.4-1.95,1.57-4.38,3.4-6.67,5.41-3.15,2.77-4.35,2.55-6.09-1.41-.38-.03-.81,0-1.2-.1-3.82-.96-7.06-.63-10.71,1.73-4.21,2.72-7.66.32-7.76-4.76-1.89,1.5-3.6,2.86-5.33,4.2-.82.63-1.61,1.32-2.51,1.83-4.47,2.54-7.07,1.17-7.81-4.27-4.47,1.55-9.06,6.99-13.46-.09-2.97,2.44-5.89,5.72-10.29,3.25-2.63-1.47-1.84-4.05-.95-6.48-2.99,2.32-5.68,4.81-8.75,6.66-2.25,1.36-4.94,2.12-7.53,2.76-3.78.93-5.06-.08-5.74-4-1.41.7-2.73,1.58-4.19,1.98-.77.21-1.78-.43-2.67-.68.44-.77.69-1.92,1.35-2.26,8.82-4.54,15.67-11.54,22.55-18.4,3.01-3.01,5.09-6.96,7.64-10.44.54-.74,1.23-1.51,2.03-1.91,1.42-.7,3.72-2,4.34-1.49,2.08,1.74-.29,2.9-1.29,4.17-.51.65-.97,1.38-1.59,1.91-5.35,4.56-6.69,10.23-4.49,17.28,2.47-1.49,4.95-3.1,7.54-4.51,2.21-1.2,4.36-3.72,7.1-.85.11.12.37.1.57.12,4.28.45,4.64,1.09,2.79,4.92-.85,1.76-1.67,3.52-2.51,5.29.21.19.41.37.62.56ZM13.6,29.91c5.5-.93,10.99-6.1,10.24-12.27-4.02,4.82-7.74,9.27-10.24,12.27ZM33.09,30.4c3.83-.9,9.01-5.72,10.86-10.13-4.79,2.4-7.87,5.94-10.86,10.13ZM78.42,25.21c-2.12,1.99-3.76,3.53-5.41,5.07,4.69.8,6.7-1.07,5.41-5.07Z"/>
+          </g>
+        </svg>
       </div>
       <h1>SSALON</h1>
-      <p class="subtitle">3D 증표 기반 일회성 모임관리 서비스 '살롱'의 프론트엔드 프리뷰 채널에 오신 것을 환영합니다.</p>
+      <p class="subtitle">3D 증표 기반 모임관리 서비스 '살롱'의 프론트엔드 프리뷰 채널에 오신 것을 환영합니다.</p>
     </header>
 
     <div class="cards-grid">
@@ -300,7 +293,7 @@
     </div>
 
     <footer>
-      <p>© 2024 SW캡스톤디자인 SKYTeam - SSALON Interactive Portal</p>
+      <p>© 2026 SW캡스톤디자인 SKYTeam - SSALON Interactive Portal</p>
     </footer>
   </div>
 
