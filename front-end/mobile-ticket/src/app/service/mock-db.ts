@@ -146,7 +146,7 @@ const setStorageItem = (key: string, value: any) => {
 export const initMockDb = () => {
   if (typeof window === 'undefined') return;
 
-  if (localStorage.getItem(DB_PREFIX + 'initialized') !== 'v3') {
+  if (localStorage.getItem(DB_PREFIX + 'initialized') !== 'v4') {
     setStorageItem('profile', DEFAULT_PROFILE);
     setStorageItem('categories', SEED_CATEGORIES);
     setStorageItem('moims', SEED_MOIMS);
@@ -217,14 +217,14 @@ export const initMockDb = () => {
         },
         'moim-105': {
           resultJSON: JSON.stringify({
-            thumbnailUrl: 'https://images.unsplash.com/photo-1618401471353-b98aedd07871?w=500&auto=format&fit=crop&q=60',
+            thumbnailUrl: 'https://images.unsplash.com/photo-1513001900722-370f803f498d?w=500',
             backgroundColor: '#e6f7ff',
             fabric: { objects: [{ type: 'text', text: 'HAN RIVER BOOK TALK', left: 40, top: 100, fill: '#1890ff' }] }
           })
         },
         'moim-106': {
           resultJSON: JSON.stringify({
-            thumbnailUrl: 'https://images.unsplash.com/photo-1618401471353-b98aedd07871?w=500&auto=format&fit=crop&q=60',
+            thumbnailUrl: 'https://images.unsplash.com/photo-1459865264687-595d652de67e?w=500',
             backgroundColor: '#fff7e6',
             fabric: { objects: [{ type: 'text', text: 'LEATHER CLASS', left: 30, top: 100, fill: '#fa8c16' }] }
           })
@@ -263,14 +263,14 @@ export const initMockDb = () => {
         },
         'moim-105': {
           resultJSON: JSON.stringify({
-            thumbnailUrl: 'https://images.unsplash.com/photo-1618401471353-b98aedd07871?w=500&auto=format&fit=crop&q=60',
+            thumbnailUrl: 'https://images.unsplash.com/photo-1513001900722-370f803f498d?w=500',
             backgroundColor: '#e6f7ff',
             fabric: { objects: [] }
           })
         },
         'moim-106': {
           resultJSON: JSON.stringify({
-            thumbnailUrl: 'https://images.unsplash.com/photo-1618401471353-b98aedd07871?w=500&auto=format&fit=crop&q=60',
+            thumbnailUrl: 'https://images.unsplash.com/photo-1459865264687-595d652de67e?w=500',
             backgroundColor: '#fff7e6',
             fabric: { objects: [] }
           })
@@ -309,7 +309,7 @@ export const initMockDb = () => {
       });
   
       // Set initialized
-      localStorage.setItem(DB_PREFIX + 'initialized', 'v3');
+      localStorage.setItem(DB_PREFIX + 'initialized', 'v4');
   }
 };
 
@@ -393,7 +393,7 @@ export const setupMockInterceptors = (instance: AxiosInstance) => {
                 isCreator: m.creatorId === profile.id,
                 isEnd: new Date(m.date).getTime() < Date.now(),
                 backgroundColor: ticketInfo?.backgroundColor || '#ffffff',
-                ticketThumb: ticketInfo?.thumbnailUrl || 'https://images.unsplash.com/photo-1618401471353-b98aedd07871?w=500&auto=format&fit=crop&q=60'
+                ticketThumb: ticketInfo?.thumbnailUrl || 'https://images.unsplash.com/photo-1516979187457-637abb4f9353?w=500'
               };
             });
           return {
@@ -415,7 +415,7 @@ export const setupMockInterceptors = (instance: AxiosInstance) => {
             isCreator: m.creatorId === profile.id,
             isEnd: new Date(m.date).getTime() < Date.now(),
             backgroundColor: ticketInfo?.backgroundColor || '#ffffff',
-            ticketThumb: ticketInfo?.thumbnailUrl || 'https://images.unsplash.com/photo-1618401471353-b98aedd07871?w=500&auto=format&fit=crop&q=60'
+            ticketThumb: ticketInfo?.thumbnailUrl || 'https://images.unsplash.com/photo-1516979187457-637abb4f9353?w=500'
           };
         });
       } else if (url.match(/\/moims\/([A-Za-z0-9-]+)\/attendance\/(\d+)/) && method === 'post') {
@@ -526,7 +526,7 @@ export const setupMockInterceptors = (instance: AxiosInstance) => {
               attendance: u.attendance
             })),
             meetingPictureUrls: [
-              ticketInfo?.thumbnailUrl || 'https://images.unsplash.com/photo-1618401471353-b98aedd07871?w=500&auto=format&fit=crop&q=60'
+              ticketInfo?.thumbnailUrl || 'https://images.unsplash.com/photo-1516979187457-637abb4f9353?w=500'
             ],
             title: found.title,
             description: found.description,
@@ -568,7 +568,7 @@ export const setupMockInterceptors = (instance: AxiosInstance) => {
             isCreator: m.creatorId === profile.id,
             isEnd: new Date(m.date).getTime() < Date.now(),
             backgroundColor: ticketInfo?.backgroundColor || '#ffffff',
-            ticketThumb: ticketInfo?.thumbnailUrl || 'https://images.unsplash.com/photo-1618401471353-b98aedd07871?w=500&auto=format&fit=crop&q=60'
+            ticketThumb: ticketInfo?.thumbnailUrl || 'https://images.unsplash.com/photo-1516979187457-637abb4f9353?w=500'
           };
         });
         resData = {
@@ -602,7 +602,7 @@ export const setupMockInterceptors = (instance: AxiosInstance) => {
             isCreator: m.creatorId === profile.id,
             isEnd: new Date(m.date).getTime() < Date.now(),
             backgroundColor: ticketInfo?.backgroundColor || '#ffffff',
-            ticketThumb: ticketInfo?.thumbnailUrl || 'https://images.unsplash.com/photo-1618401471353-b98aedd07871?w=500&auto=format&fit=crop&q=60'
+            ticketThumb: ticketInfo?.thumbnailUrl || 'https://images.unsplash.com/photo-1516979187457-637abb4f9353?w=500'
           };
         });
         resData = {
