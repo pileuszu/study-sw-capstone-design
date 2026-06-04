@@ -112,7 +112,7 @@ const setStorageItem = (key: string, value: any) => {
 export const initMockDb = () => {
   if (typeof window === 'undefined') return;
 
-  if (localStorage.getItem(DB_PREFIX + 'initialized') !== 'v1') {
+  if (localStorage.getItem(DB_PREFIX + 'initialized') !== 'v2') {
     setStorageItem('profile', DEFAULT_PROFILE);
     setStorageItem('categories', SEED_CATEGORIES);
     setStorageItem('moims', SEED_MOIMS);
@@ -176,14 +176,43 @@ export const initMockDb = () => {
       }
     });
 
-    // Seed Moim Reviews / Diaries
+    // Seed Diaries (3D decoration layout JSON mapping for back-side)
     setStorageItem('diaries', {
       'moim-101': {
         resultJSON: JSON.stringify({
-          rating: 5,
-          comment: '보드게임 너무 재밌었고 다들 처음 봤는데 매너있고 친절해서 좋았어요! 담에 꼭 또 만나요.',
-          photos: ['https://images.unsplash.com/photo-1555066931-4365d14bab8c?w=500']
+          thumbnailUrl: 'https://images.unsplash.com/photo-1607799279861-4dd421887fb3?w=500',
+          backgroundColor: '#ffe5e5',
+          fabric: { objects: [{ type: 'text', text: 'BOARD GAME MEMORIES', left: 50, top: 100, fill: '#ff4d4d' }] }
         })
+      },
+      'moim-102': {
+        resultJSON: JSON.stringify({
+          thumbnailUrl: 'https://images.unsplash.com/photo-1531403009284-440f080d1e12?w=500',
+          backgroundColor: '#e6f7ff',
+          fabric: { objects: [{ type: 'text', text: 'RUNNING MEMORIES', left: 40, top: 100, fill: '#1890ff' }] }
+        })
+      },
+      'moim-103': {
+        resultJSON: JSON.stringify({
+          thumbnailUrl: 'https://images.unsplash.com/photo-1555066931-4365d14bab8c?w=500',
+          backgroundColor: '#f6ffed',
+          fabric: { objects: [{ type: 'text', text: 'VAN GOGH MEMORIES', left: 60, top: 100, fill: '#52c41a' }] }
+        })
+      },
+      'moim-104': {
+        resultJSON: JSON.stringify({
+          thumbnailUrl: 'https://images.unsplash.com/photo-1542831371-29b0f74f9713?w=500',
+          backgroundColor: '#fff7e6',
+          fabric: { objects: [{ type: 'text', text: 'ESPRESSO MEMORIES', left: 70, top: 100, fill: '#fa8c16' }] }
+        })
+      }
+    });
+
+    // Seed Moim Reviews
+    setStorageItem('reviews', {
+      'moim-101': {
+        description: '보드게임 너무 재밌었고 다들 처음 봤는데 매너있고 친절해서 좋았어요! 담에 꼭 또 만나요.',
+        diaryPictureUrls: ['https://images.unsplash.com/photo-1555066931-4365d14bab8c?w=500']
       }
     });
 
@@ -205,7 +234,7 @@ export const initMockDb = () => {
     });
 
     // Set initialized
-    localStorage.setItem(DB_PREFIX + 'initialized', 'v1');
+    localStorage.setItem(DB_PREFIX + 'initialized', 'v2');
   }
 };
 
@@ -484,57 +513,68 @@ export const setupMockInterceptors = (instance: AxiosInstance) => {
         resData = { success: true, message: 'QR 검증 및 출석이 완료되었습니다!' };
       } else if (url.match(/\/tickets\/([A-Za-z0-9-]+)/) && method === 'get') {
         const mId = url.match(/\/tickets\/([A-Za-z0-9-]+)/)![1];
-        resData = tickets[mId] || {
+        const ticketVal = tickets[mId] || {
           resultJSON: JSON.stringify({
             thumbnailUrl: 'https://images.unsplash.com/photo-1555066931-4365d14bab8c?w=500',
             backgroundColor: '#ffffff',
             fabric: { objects: [] }
           })
         };
+        resData = JSON.parse(ticketVal.resultJSON);
       } else if (url.match(/\/tickets\/([A-Za-z0-9-]+)/) && (method === 'post' || method === 'put')) {
         const mId = url.match(/\/tickets\/([A-Za-z0-9-]+)/)![1];
         let fabricData = '';
         if (config.data instanceof FormData) {
-          fabricData = config.data.get('resultJSON') as string || '';
+          fabricData = config.data.get('json') as string || config.data.get('resultJSON') as string || '';
         } else {
-          fabricData = body.resultJSON || JSON.stringify(body);
+          fabricData = body.json || body.resultJSON || JSON.stringify(body);
         }
         const updated = { resultJSON: fabricData };
-        setStorageItem('tickets', { ...tickets, [mId]: updated });
+        tickets[mId] = updated;
+        setStorageItem('tickets', tickets);
         resData = updated;
       }
 
       // 5. Diary & Moim reviews
       else if (url.match(/\/diary\/([A-Za-z0-9-]+)\/info/) && method === 'get') {
         const mId = url.match(/\/diary\/([A-Za-z0-9-]+)\/info/)![1];
-        if (diaries[mId]) {
-          resData = diaries[mId];
+        const reviews = getStorageItem('reviews', {});
+        if (reviews[mId]) {
+          resData = reviews[mId];
         } else {
-          status = 404;
-          throw new Error('Review not found');
+          resData = {
+            description: '최고의 모임이었어요!',
+            diaryPictureUrls: []
+          };
         }
-      } else if (url.match(/\/diary\/([A-Za-z0-9-]+)\/info/) && method === 'post') {
+      } else if (url.match(/\/diary\/([A-Za-z0-9-]+)\/info/) && (method === 'post' || method === 'put' || method === 'patch')) {
         const mId = url.match(/\/diary\/([A-Za-z0-9-]+)\/info/)![1];
-        diaries[mId] = body;
-        setStorageItem('diaries', diaries);
+        const reviews = getStorageItem('reviews', {});
+        reviews[mId] = body;
+        setStorageItem('reviews', reviews);
         resData = body;
       } else if (url.match(/\/diary\/([A-Za-z0-9-]+)\/image/) && method === 'post') {
         resData = { fileUrl: 'https://images.unsplash.com/photo-1555066931-4365d14bab8c?w=500' };
       } else if (url.match(/\/diary\/([A-Za-z0-9-]+)/) && method === 'get') {
         const mId = url.match(/\/diary\/([A-Za-z0-9-]+)/)![1];
         resData = diaries[mId] || {
-          resultJSON: JSON.stringify({ rating: 5, comment: '최고의 모임이었어요!', photos: [] })
+          resultJSON: JSON.stringify({
+            thumbnailUrl: 'https://images.unsplash.com/photo-1555066931-4365d14bab8c?w=500',
+            backgroundColor: '#ffffff',
+            fabric: { objects: [] }
+          })
         };
       } else if (url.match(/\/diary\/([A-Za-z0-9-]+)/) && (method === 'post' || method === 'put')) {
         const mId = url.match(/\/diary\/([A-Za-z0-9-]+)/)![1];
         let fabricData = '';
         if (config.data instanceof FormData) {
-          fabricData = config.data.get('resultJSON') as string || '';
+          fabricData = config.data.get('json') as string || config.data.get('resultJSON') as string || '';
         } else {
-          fabricData = body.resultJSON || JSON.stringify(body);
+          fabricData = body.json || body.resultJSON || JSON.stringify(body);
         }
         const updated = { resultJSON: fabricData };
-        setStorageItem('diaries', { ...diaries, [mId]: updated });
+        diaries[mId] = updated;
+        setStorageItem('diaries', diaries);
         resData = updated;
       }
 
