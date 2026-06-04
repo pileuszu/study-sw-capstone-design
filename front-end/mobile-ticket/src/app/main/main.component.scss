@@ -1,116 +1,75 @@
 .container {
     display: flex;
     flex-direction: column;
-    justify-content: center;
-    align-items: center;
-    overflow-y: scroll;
-    height: 100%;
+    height: 100vh; /* Fill full viewport height */
     width: 100%;
     position: relative;
-}
-
-.container::-webkit-scrollbar {
-    display: none;
+    overflow: hidden; /* Prevent container itself from scrolling */
+    background-color: #ffffff;
 }
 
 #logo-container {
     display: flex;
     align-items: center;
-    margin-top: 14px;
+    justify-content: flex-start;
+    height: 54px;
     width: 100%;
+    padding: 0 16px;
+    border-bottom: 1px solid #f2f2f2;
+    background-color: #ffffff;
+    z-index: 95;
 }
 
 #tab-container {
-    height: calc(100% - 80px);
-    width: 95%;
-    margin-top: 20px;
-    overflow-y: scroll;
+    flex: 1; /* Occupy remaining vertical space */
+    width: 100%;
+    overflow-y: auto; /* Enable vertical scrolling only inside content area */
     position: relative;
-    padding-left: 10px;
-    padding-right: 10px;
+    padding: 16px 16px 80px 16px; /* 80px bottom padding to prevent content overlap with absolute bottom nav bar */
 }
 
 #tab-container::-webkit-scrollbar {
     display: none;
 }
 
-
 #navigator-container {
+    position: absolute;
+    bottom: 0;
+    left: 0;
     width: 100%;
+    height: 60px;
+    background-color: #ffffff;
+    border-top: 1px solid #eeeeee;
+    z-index: 100;
+    display: flex;
+    align-items: center;
+    justify-content: space-around;
 }
 
 .navigator-button {
-    height: 20px;
-}
-
-.navigator-button svg {
-    fill: #BCBCBC;
-}
-
-.navigator-button-selected {
-    height: 20px;
-    fill: black;
-    stroke: rgba(0, 0, 0, 0);
-}
-
-.navigator-button-selected svg {
-    fill: #2c2c2c;
-}
-
-.container {
+    height: 24px;
     display: flex;
-    flex-direction: column;
+    align-items: center;
     justify-content: center;
-    align-items: center;
-    overflow-y: scroll;
-    height: 100%;
-    width: 100%;
-    position: relative;
-}
-
-.container::-webkit-scrollbar {
-    display: none;
-}
-
-#logo-container {
-    display: flex;
-    align-items: center;
-    justify-content: left;
-    margin-top: 14px;
-    width: 95%;
-}
-
-#tab-container {
-    height: calc(100% - 80px);
-    width: 95%;
-    margin-top: 20px;
-    overflow-y: scroll;
-    position: relative;
-}
-
-#tab-container::-webkit-scrollbar {
-    display: none;
-}
-
-
-#navigator-container {
-    width: 100%;
-}
-
-.navigator-button {
-    height: 20px;
+    cursor: pointer;
 }
 
 .navigator-button svg {
     fill: #BCBCBC;
+    width: 24px;
+    height: 24px;
 }
 
 .navigator-button-selected {
-    height: 20px;
-    fill: black;
-    stroke: rgba(0, 0, 0, 0);
+    height: 24px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    cursor: pointer;
 }
 
 .navigator-button-selected svg {
     fill: #2c2c2c;
+    width: 24px;
+    height: 24px;
 }

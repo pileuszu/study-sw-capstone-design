@@ -17,8 +17,8 @@
                                 <rect width="175" height="300" rx="12.5" [attr.fill]="ticket.backgroundColor" />
                             </svg>
 
-                            <img class="deco-container" [ngSrc]="this.getThumbSrc(ticket.moimId)" height="300"
-                                width="175" priority="true" />
+                            <img class="deco-container" [src]="ticket.ticketThumb || this.getThumbSrc(ticket.moimId)" height="300"
+                                width="175" />
                             <div class="sub-info-container" *ngIf="ticket.isCreator">
                                 <svg width="18" height="18" viewBox="0 0 18 18" fill="none"
                                     xmlns="http://www.w3.org/2000/svg">
