@@ -1,4 +1,4 @@
-import { Component } from '@angular/core';
+import { Component, OnInit } from '@angular/core';
 import { SquareButtonComponent } from '../ssalon-component/square-button/square-button.component';
 import {
   NewButtonElement,
@@ -17,7 +17,7 @@ import { ApiExecutorService } from '../service/api-executor.service';
   templateUrl: './ssalon-login.component.html',
   styleUrl: './ssalon-login.component.scss',
 })
-export class SsalonLoginComponent {
+export class SsalonLoginComponent implements OnInit {
   public defaultUrl: string = 'https://ssalon.co.kr/oauth2/authorization';
   //public defaultUrl: string = 'http://localhost:8080/oauth2/authorization';
   public goMoimId: string = '';
@@ -31,6 +31,13 @@ export class SsalonLoginComponent {
       this.goMoimId = params['moimId'];
       sessionStorage.setItem('goMoimId', this.goMoimId);
     });
+  }
+  public ngOnInit(): void {
+    if (this._apiExecutorService.mockMode) {
+      // Auto-login and redirect on load when in mock mode
+      document.cookie = 'access=mock-access-token; path=/';
+      this._router.navigate(['/web/ssalon-login-redirect']);
+    }
   }
   public onClickLoginButton(value: number) {
     console.log(this.goMoimId);
