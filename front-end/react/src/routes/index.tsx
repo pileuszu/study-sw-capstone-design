@@ -1,8 +1,8 @@
-import { createBrowserRouter } from 'react-router-dom';
+import { createHashRouter } from 'react-router-dom';
 import { AuthRoutes } from './Auth';
 import { HomeRoutes } from './Home';
 
-export const router = createBrowserRouter([
+export const router = createHashRouter([
   {
     path: '/',
     errorElement: <div>404 Not Found</div>,

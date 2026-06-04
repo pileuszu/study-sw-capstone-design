@@ -8,6 +8,7 @@ import { ActivatedRoute, Router } from '@angular/router';
 import { ButtonElementsService } from '../service/button-elements.service';
 import { TicketComponent } from '../ticket/ticket.component';
 import { NgIf } from '@angular/common';
+import { ApiExecutorService } from '../service/api-executor.service';
 
 @Component({
   selector: 'app-ssalon-login',
@@ -23,7 +24,8 @@ export class SsalonLoginComponent {
   constructor(
     private _router: Router,
     private _route: ActivatedRoute,
-    public buttonElementsService: ButtonElementsService
+    public buttonElementsService: ButtonElementsService,
+    private _apiExecutorService: ApiExecutorService
   ) {
     this._route.queryParams.subscribe((params) => {
       this.goMoimId = params['moimId'];
@@ -32,6 +34,14 @@ export class SsalonLoginComponent {
   }
   public onClickLoginButton(value: number) {
     console.log(this.goMoimId);
+    
+    if (this._apiExecutorService.mockMode) {
+      // Setup mock access cookie and navigate directly to redirect page
+      document.cookie = 'access=mock-access-token; path=/';
+      this._router.navigate(['/web/ssalon-login-redirect']);
+      return;
+    }
+
     let redirectUrl: string;
     if (value === 0) {
       redirectUrl = `${this.defaultUrl}/google`;

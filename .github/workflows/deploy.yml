@@ -1,0 +1,79 @@
+name: Deploy Front-ends to GitHub Pages
+
+on:
+  push:
+    branches:
+      - mocking
+
+permissions:
+  contents: read
+  pages: write
+  id-token: write
+
+concurrency:
+  group: "pages"
+  cancel-in-progress: true
+
+jobs:
+  build-and-deploy:
+    environment:
+      name: github-pages
+      url: ${{ steps.deployment.outputs.page_url }}
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Setup Node
+        uses: actions/setup-node@v4
+        with:
+          node-version: "20"
+
+      # 1. Build Angular User App
+      - name: Install Angular Dependencies
+        working-directory: ./front-end/mobile-ticket
+        run: npm ci
+
+      - name: Build Angular User App
+        working-directory: ./front-end/mobile-ticket
+        run: npx ng build --configuration production --base-href /study-sw-capstone-design/mobile-ticket/
+
+      # 2. Build React Admin App
+      - name: Install React Dependencies
+        working-directory: ./front-end/react
+        run: npm ci
+
+      - name: Build React Admin App
+        working-directory: ./front-end/react
+        run: npm run build
+
+      # 3. Assemble deploy directory
+      - name: Assemble Deploy Directory
+        run: |
+          mkdir -p ./deploy-dist/mobile-ticket
+          mkdir -p ./deploy-dist/admin
+          
+          # Copy portal landing page
+          cp index.html ./deploy-dist/index.html
+          
+          # Copy Angular build output (handling possible output folders)
+          if [ -d "./front-end/mobile-ticket/dist/mobile-ticket/browser" ]; then
+            cp -r ./front-end/mobile-ticket/dist/mobile-ticket/browser/* ./deploy-dist/mobile-ticket/
+          elif [ -d "./front-end/mobile-ticket/dist/mobile-ticket" ]; then
+            cp -r ./front-end/mobile-ticket/dist/mobile-ticket/* ./deploy-dist/mobile-ticket/
+          fi
+          
+          # Copy React build output
+          cp -r ./front-end/react/dist/* ./deploy-dist/admin/
+
+      - name: Setup Pages
+        uses: actions/configure-pages@v4
+
+      - name: Upload artifact
+        uses: actions/upload-pages-artifact@v3
+        with:
+          path: ./deploy-dist
+
+      - name: Deploy to GitHub Pages
+        id: deployment
+        uses: actions/deploy-pages@v4

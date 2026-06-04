@@ -1,0 +1,308 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>SSALON - 살롱 모임관리 서비스 포털</title>
+  <!-- Google Fonts: Outfit -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;600;800&family=Noto+Sans+KR:wght@300;400;700&display=swap" rel="stylesheet">
+  
+  <style>
+    :root {
+      --bg-gradient: linear-gradient(135deg, #0f0c20 0%, #15102a 50%, #06020f 100%);
+      --accent-color-1: #8a2be2;
+      --accent-color-2: #4a00e0;
+      --accent-glow: 0 0 20px rgba(138, 43, 226, 0.4);
+      --card-bg: rgba(255, 255, 255, 0.03);
+      --card-border: rgba(255, 255, 255, 0.07);
+      --card-hover-border: rgba(138, 43, 226, 0.4);
+      --text-main: #f5f3f7;
+      --text-sub: #b1a9c4;
+    }
+
+    * {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+    }
+
+    body {
+      font-family: 'Outfit', 'Noto Sans KR', sans-serif;
+      background: var(--bg-gradient);
+      color: var(--text-main);
+      min-height: 100vh;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      overflow-x: hidden;
+      position: relative;
+    }
+
+    /* Ambient background lights */
+    .bg-light-1 {
+      position: absolute;
+      width: 400px;
+      height: 400px;
+      background: radial-gradient(circle, rgba(138, 43, 226, 0.15) 0%, rgba(0,0,0,0) 70%);
+      top: 10%;
+      left: 15%;
+      pointer-events: none;
+      z-index: 1;
+    }
+
+    .bg-light-2 {
+      position: absolute;
+      width: 500px;
+      height: 500px;
+      background: radial-gradient(circle, rgba(74, 0, 224, 0.12) 0%, rgba(0,0,0,0) 70%);
+      bottom: 10%;
+      right: 15%;
+      pointer-events: none;
+      z-index: 1;
+    }
+
+    .container {
+      max-width: 1000px;
+      width: 100%;
+      padding: 2rem;
+      text-align: center;
+      z-index: 10;
+    }
+
+    header {
+      margin-bottom: 4rem;
+      animation: fadeInDown 0.8s ease-out;
+    }
+
+    .logo-container {
+      display: inline-flex;
+      align-items: center;
+      gap: 12px;
+      margin-bottom: 1rem;
+    }
+
+    .logo-icon {
+      font-size: 2.8rem;
+      animation: pulse 2s infinite ease-in-out;
+    }
+
+    h1 {
+      font-size: 3.5rem;
+      font-weight: 800;
+      letter-spacing: -1px;
+      background: linear-gradient(to right, #ffffff, #d2b4ff);
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+      margin-bottom: 1rem;
+    }
+
+    .subtitle {
+      font-size: 1.25rem;
+      color: var(--text-sub);
+      max-width: 600px;
+      margin: 0 auto;
+      line-height: 1.6;
+      font-weight: 300;
+    }
+
+    .cards-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+      gap: 2rem;
+      margin-bottom: 4rem;
+      animation: fadeInUp 0.8s ease-out 0.2s both;
+    }
+
+    .portal-card {
+      background: var(--card-bg);
+      border: 1px solid var(--card-border);
+      border-radius: 20px;
+      padding: 2.5rem 2rem;
+      backdrop-filter: blur(16px);
+      -webkit-backdrop-filter: blur(16px);
+      transition: all 0.4s cubic-bezier(0.165, 0.84, 0.44, 1);
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: space-between;
+      text-decoration: none;
+      color: inherit;
+      position: relative;
+      overflow: hidden;
+    }
+
+    .portal-card::before {
+      content: '';
+      position: absolute;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      background: linear-gradient(135deg, rgba(138, 43, 226, 0.05) 0%, rgba(0,0,0,0) 100%);
+      opacity: 0;
+      transition: opacity 0.4s ease;
+    }
+
+    .portal-card:hover {
+      transform: translateY(-8px);
+      border-color: var(--card-hover-border);
+      box-shadow: 0 12px 30px rgba(138, 43, 226, 0.15), inset 0 0 15px rgba(255, 255, 255, 0.03);
+    }
+
+    .portal-card:hover::before {
+      opacity: 1;
+    }
+
+    .card-icon {
+      font-size: 3.5rem;
+      margin-bottom: 1.5rem;
+      transition: transform 0.4s ease;
+    }
+
+    .portal-card:hover .card-icon {
+      transform: scale(1.15) rotate(3deg);
+    }
+
+    .card-title {
+      font-size: 1.5rem;
+      font-weight: 600;
+      margin-bottom: 0.75rem;
+      color: #ffffff;
+    }
+
+    .card-desc {
+      font-size: 0.95rem;
+      color: var(--text-sub);
+      line-height: 1.5;
+      margin-bottom: 2rem;
+      font-weight: 300;
+    }
+
+    .card-btn {
+      padding: 0.75rem 2rem;
+      background: linear-gradient(135deg, var(--accent-color-1) 0%, var(--accent-color-2) 100%);
+      border-radius: 30px;
+      font-weight: 600;
+      font-size: 0.95rem;
+      color: #ffffff;
+      box-shadow: var(--accent-glow);
+      transition: transform 0.3s ease, box-shadow 0.3s ease;
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+    }
+
+    .portal-card:hover .card-btn {
+      transform: scale(1.05);
+      box-shadow: 0 0 25px rgba(138, 43, 226, 0.6);
+    }
+
+    footer {
+      font-size: 0.85rem;
+      color: var(--text-sub);
+      margin-top: auto;
+      padding-top: 2rem;
+      animation: fadeIn 1s ease-out 0.4s both;
+      font-weight: 300;
+    }
+
+    /* Animations */
+    @keyframes fadeInDown {
+      from {
+        opacity: 0;
+        transform: translateY(-30px);
+      }
+      to {
+        opacity: 1;
+        transform: translateY(0);
+      }
+    }
+
+    @keyframes fadeInUp {
+      from {
+        opacity: 0;
+        transform: translateY(30px);
+      }
+      to {
+        opacity: 1;
+        transform: translateY(0);
+      }
+    }
+
+    @keyframes fadeIn {
+      from { opacity: 0; }
+      to { opacity: 1; }
+    }
+
+    @keyframes pulse {
+      0%, 100% { transform: scale(1); }
+      50% { transform: scale(1.08); }
+    }
+
+    @keyframes rotate {
+      from { transform: rotate(0deg); }
+      to { transform: rotate(360deg); }
+    }
+
+    @media (max-width: 600px) {
+      h1 {
+        font-size: 2.5rem;
+      }
+      .subtitle {
+        font-size: 1.1rem;
+      }
+    }
+  </style>
+</head>
+<body>
+
+  <div class="bg-light-1"></div>
+  <div class="bg-light-2"></div>
+
+  <div class="container">
+    <header>
+      <div class="logo-container">
+        <span class="logo-icon">✨</span>
+      </div>
+      <h1>SSALON</h1>
+      <p class="subtitle">3D 증표 기반 일회성 모임관리 서비스 '살롱'의 프론트엔드 프리뷰 채널에 오신 것을 환영합니다.</p>
+    </header>
+
+    <div class="cards-grid">
+      <!-- Angular User Application Card -->
+      <a href="./mobile-ticket/" class="portal-card" id="btn-user-app">
+        <div class="card-top" style="width: 100%;">
+          <div class="card-icon">📱</div>
+          <h2 class="card-title">살롱 사용자 모바일 서비스</h2>
+          <p class="card-desc">3D 증표 꾸미기, 모임 개최 및 참여, 실시간 채팅, ZXing QR 인증 및 모임 후기 작성을 포함한 핵심 유저용 서비스 프리뷰입니다.</p>
+        </div>
+        <div class="card-btn">
+          <span>유저 앱 체험하기</span>
+          <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12h14M12 5l7 7-7 7"/></svg>
+        </div>
+      </a>
+
+      <!-- React Admin Application Card -->
+      <a href="./admin/" class="portal-card" id="btn-admin-app">
+        <div class="card-top" style="width: 100%;">
+          <div class="card-icon">📊</div>
+          <h2 class="card-title">살롱 관리자 서비스</h2>
+          <p class="card-desc">살롱 플랫폼의 활성 모임 관리, 가입 회원 리스트 조회 및 회원/모임 강퇴 처리를 시뮬레이션해볼 수 있는 대시보드 프리뷰입니다.</p>
+        </div>
+        <div class="card-btn">
+          <span>관리자 대시보드 체험하기</span>
+          <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12h14M12 5l7 7-7 7"/></svg>
+        </div>
+      </a>
+    </div>
+
+    <footer>
+      <p>© 2024 SW캡스톤디자인 SKYTeam - SSALON Interactive Portal</p>
+    </footer>
+  </div>
+
+</body>
+</html>

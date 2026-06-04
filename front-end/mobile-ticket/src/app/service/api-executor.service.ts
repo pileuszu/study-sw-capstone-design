@@ -2,6 +2,7 @@ import axios, { AxiosInstance } from 'axios';
 import { SsalonConfigService } from './ssalon-config.service';
 import { Injectable } from '@angular/core';
 import { RegisterUserInfo } from '../onboarding/onboarding.component';
+import { setupMockInterceptors } from './mock-db';
 
 export interface Profile {
   id: number;
@@ -23,6 +24,7 @@ export interface ImageGeneration {
   providedIn: 'root',
 })
 export class ApiExecutorService {
+  public mockMode = true; // Enable mock mode by default
   public apiExecutor: AxiosInstance | null = null;
   public apiExecutorJson: AxiosInstance | null = null;
   public apiURL: string = 'https://ssalon.co.kr/api';
@@ -59,10 +61,11 @@ export class ApiExecutorService {
         withCredentials: true,
       },
     });
-    /*
-        Authorization: `Bearer ${this.token}`,
-        Refresh: this.refreshToken,
-    */
+
+    if (this.mockMode) {
+      setupMockInterceptors(this.apiExecutor);
+      setupMockInterceptors(this.apiExecutorJson);
+    }
   }
 
   public async getMyProfile() {
